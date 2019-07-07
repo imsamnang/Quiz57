@@ -2,31 +2,16 @@
 
 namespace App\Models;
 
-use Cviebrock\EloquentSluggable\Sluggable;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
-    use Sluggable;
-    protected $guarded = [];
-    protected $table = 'quiz';
-
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
-
-    public function setReferenceAttribute()
-    {
-        return $this->attributes['reference'] = '#'.str_random(10);
-    }
+  protected $dates = ['created_at'];
+	protected $primaryKey = 'quizid';
 
     public function questions()
     {
-        return $this->belongsToMany(Question::class);
+    	return $this->hasMany(Question::class);
     }
 }

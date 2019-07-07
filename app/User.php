@@ -2,38 +2,38 @@
 
 namespace App;
 
-use App\Models\QuizResults;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
-    use Authenticatable, CanResetPassword;
+    use Notifiable;
 
-    protected $table = 'users';
-    protected $fillable = ['name', 'email', 'password'];
-
-    protected $hidden = [
-        'password', 'remember_token'
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password',
     ];
 
-	public function attempts()
-	{
-		return $this->belongsTo(Attempt::class);
-	}
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
-    public function quiz_results()
-    {
-        return $this->hasMany(QuizResults::class);
-	}
-
-	// To be implemented, this is for the frontend to check if a user passed a certian quiz.
-    public function checkQuizPassedStatus($quiz)
-    {
-
-    }
-
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 }
