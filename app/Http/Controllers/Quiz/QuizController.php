@@ -22,6 +22,12 @@ class QuizController extends Controller
     return view('quizs.subject.index',compact('allQuiz'));
   }
 
+  public function front()
+  {
+    $allQuiz = SubjectQuiz::all();
+    return view('quizs.mainquiz',compact('allQuiz'));    
+  }
+
   public function create()
   {
     return view('quizs.subject.create');
@@ -100,7 +106,8 @@ class QuizController extends Controller
     $sub = SubjectQuiz::where('slug',$quiz)->first();
     $allQuestion = $sub->questions()->paginate(1);
     $totalQuestionCount = $sub->questions()->count();
-    return view('quizs.appearQuiz',compact('sub','allQuestion'));
+    // return view('quizs.appearQuiz',compact('sub','allQuestion'));
+    return view('quizs.start',compact('sub','allQuestion'));
   }
 
   public function nextClickStore(request $request)

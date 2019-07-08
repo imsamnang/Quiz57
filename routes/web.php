@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\DB;
 
 Auth::routes();
-Route::view('front','layouts.quiz_layout');
-Route::get('/','HomeController@viewAllQuiz');
+Route::get('/','HomeController@index');
+Route::get('front','Quiz\QuizController@front')->name('front');
 Route::get('/home', 'HomeController@viewAllQuiz')->name('home');
 
 //Quiz Route

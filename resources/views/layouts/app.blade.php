@@ -10,9 +10,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-  <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
-  <link rel="stylesheet" href="{{asset('assets/css/font-awesome.min.css')}}">
-
+    <script src="{{ asset('js/app.js') }}"></script>
+    <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">

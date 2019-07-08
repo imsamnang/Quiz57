@@ -1,86 +1,165 @@
-@extends('Projectactivities.layout.master')
-@section('page-title')
-  @if(isset($generalSetting->institute))
-    IMS | {{$generalSetting->institute}}
-  @else
-    IMS Management
-  @endif
+@extends('layouts.quiz_layout')
+
+@section('head')
+  <link href="{{ asset('css/front.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+  <script>
+    window.Laravel =  <?php echo json_encode([
+        'csrfToken' => csrf_token(),
+    ]); ?>
+  </script>
 @endsection
 
-@push('custom-css')
-    
-@endpush
+@section('top_bar')
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script>
+		function str_pad_left(string,pad,length) {
+			return (new Array(length+1).join(pad)+string).slice(-length);
+		}
+		function startTimer(){
+			var count;
+			var timer = setInterval(function() {
+					var div = document.querySelector("#counter");
+					// var queDur = document.querySelector("#queDuration").value;
+					var hidden_div = document.querySelector("#hidden");
+					count = count != undefined ? count * 1 -1 : hidden_div.textContent * 1 - 1;
+					var minutes = Math.floor(count / 60);
+					var seconds = count - minutes * 60;
+					var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
+					div.textContent = finalTime;
+					// document.getElementById("queDuration").value = finalTime;
+					queDur = finalTime;
+					console.log(queDur);
+					if (count == 0 && document.querySelector(".next")) {
+							clearInterval(timer);
+							document.querySelector(".next").click();
+					}else if(count == 0){
+							console.log("Submit");
+							clearInterval(timer);
+							document.quiz.submit();
+					}
+			}, 1000);
+		}
+		jQuery(document).ready(function($) {
+				startTimer();
+				window.history.pushState(null, "", window.location.href);        
+				window.onpopstate = function() {
+						window.history.pushState(null, "", window.location.href);
+				};
+				$('.next').on('click', ()=>{
+						startTimer();
+				})
+		});
+	</script>
 
-@section('menu-panel')
-    @include('projectactivities.layout.menu.menu_admin')
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="logo-main-block">
+      <div class="container">
+        {{-- @if ($setting) --}}
+          <a href="{{ url('/') }}" title="Laravel Quiz">
+            <img src="{{asset('/images/logo/logo_1512974578qq2.png')}}" class="img-responsive" alt="Laravel Quiz">
+          </a>
+        {{-- @endif --}}
+      </div>
+    </div>
+    <div class="nav-bar">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="navbar-header">
+                <h4 class="heading">Laravel Quiz</h4>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+              <ul class="nav navbar-nav">
+                &nbsp;
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li id="counter"></li>
+              </ul>
+            </div>        	
+        	</div>
+        </div>
+      </div>
+    </div>
+  </nav>	
 @endsection
 
 @section('content')
-  {{-- @include('ProjectActivities.layout.left.admin') --}}
-<div class="container">
-  {{-- <form action="" id="start_quiz" name="start_quiz" method="POST"> --}}
-    <div class="row">
-	    <div class="new-start">
-	        <div class="row">
-	            {!! Form::open(['method' => 'post', 'route' => ['quiz.submit', $quiz->slug]]) !!}
-	            <div class="col-md-6 col-sm-6 col-xs-12 col-lg-offset-3 col-sm-offset-3">
-	                <div class="border-box">
-	                    <h4 class="text-center">Quiz: {{ $quiz->title }}</h4>
-	                </div>
-	                <ul class="list-group questions">
-	                    @if(count($questions))
-	                        @foreach($questions as $question)
-	                            <li class="list-group-item">
-	                                <div class="quiz-header" >
-	                                    Question: <b>{{ $question->title }}</b>
-	                                    <hr>
-	                                </div>
-	                                @foreach($question->options as $option)
-	                                    @if($question->answers->count() === 1)
-	                                        <div class="radio">
-	                                            <label>
-	                                                <input type="radio" class="input" onclick="$('.submit-single-question').removeClass('disabled')" name="option[{{$option->question_id}}]" value="{{ $option->id }}">
-	                                                {{ $option->title}}
-	                                            </label>
-	                                        </div>
-	                                    @else
-	                                        <div class="checkbox">
-	                                            <label>
-	                                                <input type="checkbox" class="input" onclick="$('.submit-single-question').removeClass('disabled')" name="option[{{$option->question_id}}][]" value="{{ $option->id }}">
-	                                                {{ $option->title}}
-	                                            </label>
-	                                        </div>
-	                                    @endif
-	                                @endforeach
-	                                <hr>
-	                                <div class="form-group text-center">
-	                                    @if(!$loop->last)
-	                                        <a href="#" id="submit-single-question" class="btn btn-success submit-single-question disabled" onclick="$('.submit-single-question').addClass('disabled')" target="{{$option->question_id}}">
-	                                            Next Question
-	                                        </a>
-	                                    @else
-	                                        <button type="submit" name="submit" class="btn btn-success submit-single-question disabled">Submit and See Result!</button>
-	                                    @endif
-	                                </div>
-	                            </li>
-	                        @endforeach
-	                    @else
-	                        <li class="list-group-item">
-	                            <div class="quiz-header"><h5>Sorry, No questions found.</h5></div>
-	                            <hr>
-	                            <p>Why don't you rather return back to the <a href="/">home page</a></p>
-	                        </li>
-	                    @endif
-	                </ul>
-	            </div>
-	            {!! Form::close() !!}
-	        </div>
-	    </div>
-    </div>
-  {{-- </form> --}}
-</div>
+  <div class="container">
+		<div class="home-main-block">
+			<?php 
+		    if(isset($_GET['page']))
+		      $page = $_GET['page']; 
+				else
+					$page=1;
+		  ?>
+			<div id="question_block" class="question-block">
+				<div class="main-questions">
+					<div class="myQuestion active">
+						<div class="row">
+							<div class="col-md-8 col-md-offset-2">	
+
+								@foreach($allQuestion as $iteration => $question)
+									<blockquote> Total Questions &nbsp;&nbsp;1 / 10	</blockquote>
+				        	<h3 class="question">Q.The common element which describe the web page, is ?</h3>
+									@if ( $allQuestion->hasMorePages())
+										{{ Form::open(array('route' => 'quiz.next.quiz', 'role' => 'form', 'name' => 'quiz', 'class' => 'form-horizontal', 'id' => 'myForm')) }}
+									@else
+										{{ Form::open(array('route' => 'quiz.finish.quiz', 'role' => 'form', 'name' => 'quiz', 'class' => 'form-horizontal', 'id' => 'myForm')) }}
+									@endif
+										<input name="page" type="hidden" value="{{ $page}}">
+										<div id="hidden" hidden="hidden"> 
+										<input type="" name="queDuration" id="queDuration" value="{{$question->question_duration}}">{{$question->question_duration}}
+										</div>
+										<input type="hidden" name="question_id[{{ $question->id }}]" value="{{$question->id}}">
+		                @foreach($question->options as $ops)
+		                  @if($question->answers->count() === 1)
+		 										<div class="radio">
+		                      <label>
+		                        <input type="radio" class="input" name="answer[]" id="mc_c{{ $ops->title }}" value="{{$ops->id}}">
+		                        {{ $ops->title}}
+		                      </label>
+		                    </div>
+		                  @else
+		                    <div class="checkbox">
+		                      <label>
+		                        <input type="checkbox" class="input" name="answer[]" id="mc_c{{ $ops->title }}" value="{{$ops->id}}">
+		                        {{ $ops->title}}
+		                      </label>
+		                    </div>
+		                  @endif
+		                @endforeach
+					        	<div class="row">
+											{{-- <div class="col-md-6 col-xs-8">
+					        			<button type="submit" class="btn btn-wave btn-block nextbtn">Next</button>
+					        		</div> --}}
+											<input type="hidden" name="quiz-id" id="test-id" value="{{ $sub->id }}">
+											<input type="hidden" name="quiz-slug" id="test-slug" value="{{ $sub->slug }}">
+											<input type="hidden" name="user-id" id="student-id" value="{{ Auth::user()->id }}">
+											<p>{{ $allQuestion->links('vendor.pagination.myown') }}</p>					        		
+					        	</div>
+					        </form>
+				        @endforeach
+		      		</div> 
+		    		</div>
+		  		</div>
+		  	</div>
+		  </div>
+		</div>
+	</div>
 @endsection
-  {{-- For Custom JS --}}
-@push('custom-js')
-    
-@endpush
+
+@section('scripts')
+	{{-- <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script> --}}
+	<script src="{{ asset('js/jquery.cookie.js') }}"></script>
+	<script src="{{ asset('js/jquery.countdown.js') }}"></script>
+	<script type="text/javascript">
+	  var topic_id = "";
+	  var timer = "";
+		$(document).ready(function(){
+	    function e(e){(116==(e.which||e.keyCode)||82==(e.which||e.keyCode))&&e.preventDefault()
+	  } 
+	</script>
+@endsection

@@ -9,15 +9,15 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-  public function __construct()
-  {
-    $this->middleware('auth');
-  }
-
-  // public function index()
+  // public function __construct()
   // {
-  //   return view('home');
+    // $this->middleware('auth'); 
   // }
+
+  public function index()
+  {
+    return view('quizs.home');
+  }
 
   public function viewAllQuiz()
   {
