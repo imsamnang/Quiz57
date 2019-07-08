@@ -36,7 +36,8 @@ class QuizController extends Controller
       'slug'  => $slug,
       'reference' => $ref,
       'max_attempts'  => $request->max_attempts,
-      'pass_percentage' => $request->pass_percentage,
+      'pass_percentage' => (int)$request->pass_percentage,
+      'question_duration' => (int)$request->question_duration,
       'status'  => $request->active
     ]);
 

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\DB;
 
 Auth::routes();
+Route::view('front','layouts.quiz_layout');
 Route::get('/','HomeController@viewAllQuiz');
 Route::get('/home', 'HomeController@viewAllQuiz')->name('home');
 
@@ -43,6 +44,10 @@ Route::group(['as'=>'quiz.','prefix'=>'quiz/','namespace'=>'Quiz','middleware' =
   Route::get('takequiz/{quiz}', 'QuizController@takeQuiz')->name('start.quiz');
   Route::post('nextclick', 'QuizController@nextClickStore')->name('next.quiz');
   Route::post('finishQuiz', 'QuizController@storeQuiz')->name('finish.quiz');
+  
+  Route::get('/userResults', 'userController@showAppearedQuiz')->name('user.result');
+  Route::get('/viewSigleResult/{quizappearid}', 'userController@singleResult')->name('single.result');
+  Route::get('/quizLeaderboard/{quiz}', 'userController@viewLeaderboard')->name('leaderboard');
 });
 // Quiz Questions
   Route::group(['as'=>'quiz.','prefix'=>'quiz/','namespace'=>'Quiz','middleware' =>['auth']],function (){

@@ -12,7 +12,8 @@ class SubjectQuiz extends Model
                       'slug',
                       'reference',
                       'max_attempts',
-                      'pass_percentage'
+                      'pass_percentage',
+                      'question_duration'
                       // 'status',
                     ];
 

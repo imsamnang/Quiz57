@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('css')
-    <!-- page specific plugin styles -->
 
 @endsection
 
@@ -32,6 +31,11 @@
                 <div class="form-group">
                     {!! Form::label('pass_percentage', 'Pass Percentage') !!}
                     {!! Form::input('text', 'pass_percentage', null, ['class' => 'form-control']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('question_duration', 'Question Duration') !!}
+                    {!! Form::input('number', 'question_duration', null, ['class' => 'form-control']) !!}
                 </div>
 
                 <div class="form-group">

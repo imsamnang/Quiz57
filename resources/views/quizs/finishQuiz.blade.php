@@ -6,14 +6,6 @@
     IMS Management
   @endif --}}
 @endsection
-
-@push('custom-css')
-    
-@endpush
-
-@section('menu-panel')
-  @include('layouts.menu.menu_admin')
-@endsection
   {{-- For Custom CSS --}}
 @push('custom-css')
   <script>
@@ -28,6 +20,11 @@
     });
 	</script>
 @endpush
+
+@section('menu-panel')
+  @include('layouts.menu.menu_admin')
+@endsection
+
 
 @section('content')
   <div class="container">

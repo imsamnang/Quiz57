@@ -79,10 +79,28 @@
 							<input type="hidden" name="question_id[{{ $question->id }}]" value="{{$question->id}}">
 							<div class="quiz-question"><h4 style="margin-bottom: 15px;">Question {{$page}} : {{ $question->question }}</h4></div>
 							<div style="margin-bottom: 15px;">
-								@foreach ($question->options as $key => $ops)
+								{{--@foreach ($question->options as $key => $ops)
 									<input class="" type="radio" name="answer[{{ $ops->id }}]" id="mc_c{{ $ops->title }}" value="{{$ops->id}}"> <label for="">{{ $ops->title}}</label><br>
-								@endforeach
+								@endforeach --}}
+                @foreach($question->options as $ops)
+                  @if($question->answers->count() === 1)
+                    <div class="radio">
+                      <label>
+                        <input type="radio" class="input" name="answer[{{ $ops->id }}]" id="mc_c{{ $ops->title }}" value="{{$ops->id}}">
+                        {{ $ops->title}}
+                      </label>
+                    </div>
+                  @else
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" class="input" name="answer[{{ $ops->id }}]" id="mc_c{{ $ops->title }}" value="{{$ops->id}}">
+                        {{ $ops->title}}
+                      </label>
+                    </div>
+                  @endif
+                @endforeach
 							</div>
+
 							<input type="hidden" name="quiz-id" id="test-id" value="{{ $sub->id }}">
 							<input type="hidden" name="quiz-slug" id="test-slug" value="{{ $sub->slug }}">
 							<input type="hidden" name="user-id" id="student-id" value="{{ Auth::user()->id }}">
