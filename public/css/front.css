@@ -8687,6 +8687,14 @@ button.btn-wave {
   font-weight: 600;
 }
 
+li#counter {
+    margin-top: 4px;
+    color: #FFF;
+    font-size: 22px;
+    letter-spacing: 3px;
+    font-weight: 600;
+}
+
 /*======== Session Modal ========*/
 
 .sessionmodal {

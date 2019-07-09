@@ -14,11 +14,11 @@
 					var div = document.querySelector("#counter");
 					var queDur = document.querySelector("#queDuration").value;
 					var hidden_div = document.querySelector("#hidden");
-					// count = count != undefined ? count * 1 -1 : hidden_div.textContent * 1 - 1;
+					count = count != undefined ? count * 1 -1 : hidden_div.textContent * 1 - 1;
 					var minutes = Math.floor(count / 60);
 					var seconds = count - minutes * 60;
 					var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
-					// div.textContent = finalTime;
+					div.textContent = finalTime;
 					document.getElementById("queDuration").value = finalTime;
 					queDur = finalTime;
 					console.log(queDur);
@@ -73,7 +73,7 @@
 							<div id="hidden" hidden="hidden"> 
 								<input type="" name="queDuration" id="queDuration" value="{{$question->question_duration}}">{{$question->question_duration}}
 							</div>
-								<input type="hidden" name="question_id[{{ $question->id }}]" value="{{$question->id}}">
+							<input type="hidden" name="question_id[{{ $question->id }}]" value="{{$question->id}}">
 							<div class="quiz-question">
 								<h4 style="margin-bottom: 15px;">Question {{$page}} : {{ $question->question }}</h4>
 							</div>
@@ -96,7 +96,6 @@
                   @endif
                 @endforeach
 							</div>
-
 							<input type="hidden" name="quiz-id" id="test-id" value="{{ $sub->id }}">
 							<input type="hidden" name="quiz-slug" id="test-slug" value="{{ $sub->slug }}">
 							<input type="hidden" name="user-id" id="student-id" value="{{ Auth::user()->id }}">

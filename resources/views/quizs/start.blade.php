@@ -13,45 +13,47 @@
 @section('top_bar')
 	<script src="{{ asset('js/jquery.min.js') }}"></script>
 	<script>
-		function str_pad_left(string,pad,length) {
-			return (new Array(length+1).join(pad)+string).slice(-length);
-		}
-		function startTimer(){
-			var count;
-			var timer = setInterval(function() {
-					var div = document.querySelector("#counter");
-					// var queDur = document.querySelector("#queDuration").value;
-					var hidden_div = document.querySelector("#hidden");
-					count = count != undefined ? count * 1 -1 : hidden_div.textContent * 1 - 1;
-					var minutes = Math.floor(count / 60);
-					var seconds = count - minutes * 60;
-					var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
-					div.textContent = finalTime;
-					// document.getElementById("queDuration").value = finalTime;
-					queDur = finalTime;
-					console.log(queDur);
-					if (count == 0 && document.querySelector(".next")) {
-							clearInterval(timer);
-							document.querySelector(".next").click();
-					}else if(count == 0){
-							console.log("Submit");
-							clearInterval(timer);
-							document.quiz.submit();
-					}
-			}, 1000);
-		}
-		jQuery(document).ready(function($) {
-				startTimer();
-				window.history.pushState(null, "", window.location.href);        
-				window.onpopstate = function() {
-						window.history.pushState(null, "", window.location.href);
-				};
-				$('.next').on('click', ()=>{
-						startTimer();
-				})
-		});
-	</script>
+	    function str_pad_left(string,pad,length) {
+	        return (new Array(length+1).join(pad)+string).slice(-length);
+	    }
 
+	    function startTimer(){
+	        var count;
+	        var timer = setInterval(function() {
+	            var div = document.querySelector("#counter");
+	            var queDur = document.querySelector("#queDuration").value;
+	            var hidden_div = document.querySelector("#hidden");
+	            count = count != undefined ? count * 1 -1 : hidden_div.textContent * 1 - 1;
+	            var minutes = Math.floor(count / 60);
+	            var seconds = count - minutes * 60;
+	            var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
+	            div.textContent = finalTime;
+	            document.getElementById("queDuration").value = finalTime;
+	            queDur = finalTime;
+	            console.log(queDur);
+	            if (count == 0 && document.querySelector(".next")) {
+	                clearInterval(timer);
+	                document.querySelector(".next").click();
+	            }else if(count == 0){
+	                console.log("Submit");
+	                clearInterval(timer);
+	                document.quiz.submit();
+	            }
+	        }, 1000);
+	    }
+
+	    jQuery(document).ready(function($) {
+	        startTimer();
+	        window.history.pushState(null, "", window.location.href);        
+	        window.onpopstate = function() {
+	            window.history.pushState(null, "", window.location.href);
+	        };
+	        $('.next').on('click', ()=>{
+	            startTimer();
+	        })
+	    });
+	</script>
+	
   <nav class="navbar navbar-default navbar-static-top">
     <div class="logo-main-block">
       <div class="container">
@@ -99,8 +101,7 @@
 				<div class="main-questions">
 					<div class="myQuestion active">
 						<div class="row">
-							<div class="col-md-8 col-md-offset-2">	
-
+							<div class="col-md-8 col-md-offset-2">
 								@foreach($allQuestion as $iteration => $question)
 									<blockquote> Total Questions &nbsp;&nbsp;1 / 10	</blockquote>
 				        	<h3 class="question">Q.The common element which describe the web page, is ?</h3>
@@ -111,7 +112,7 @@
 									@endif
 										<input name="page" type="hidden" value="{{ $page}}">
 										<div id="hidden" hidden="hidden"> 
-										<input type="" name="queDuration" id="queDuration" value="{{$question->question_duration}}">{{$question->question_duration}}
+											<input type="" name="queDuration" id="queDuration" value="{{$question->question_duration}}">{{$question->question_duration}}
 										</div>
 										<input type="hidden" name="question_id[{{ $question->id }}]" value="{{$question->id}}">
 		                @foreach($question->options as $ops)
@@ -159,7 +160,7 @@
 	  var topic_id = "";
 	  var timer = "";
 		$(document).ready(function(){
-	    function e(e){(116==(e.which||e.keyCode)||82==(e.which||e.keyCode))&&e.preventDefault()
-	  } 
+	    function e(e){(116==(e.which||e.keyCode)||82==(e.which||e.keyCode))&&e.preventDefault()};
+	  });
 	</script>
 @endsection
