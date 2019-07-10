@@ -3,6 +3,7 @@
 @section('head')
   <link href="{{ asset('css/front.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/flipclock/flipclock.css')}}">
   <script>
     window.Laravel =  <?php echo json_encode([
         'csrfToken' => csrf_token(),
@@ -10,50 +11,7 @@
   </script>
 @endsection
 
-@section('top_bar')
-	<script src="{{ asset('js/jquery.min.js') }}"></script>
-	<script>
-	    function str_pad_left(string,pad,length) {
-	        return (new Array(length+1).join(pad)+string).slice(-length);
-	    }
-
-	    function startTimer(){
-	        var count;
-	        var timer = setInterval(function() {
-	            var div = document.querySelector("#counter");
-	            var queDur = document.querySelector("#queDuration").value;
-	            var hidden_div = document.querySelector("#hidden");
-	            count = count != undefined ? count * 1 -1 : hidden_div.textContent * 1 - 1;
-	            var minutes = Math.floor(count / 60);
-	            var seconds = count - minutes * 60;
-	            var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
-	            div.textContent = finalTime;
-	            document.getElementById("queDuration").value = finalTime;
-	            queDur = finalTime;
-	            console.log(queDur);
-	            if (count == 0 && document.querySelector(".next")) {
-	                clearInterval(timer);
-	                document.querySelector(".next").click();
-	            }else if(count == 0){
-	                console.log("Submit");
-	                clearInterval(timer);
-	                document.quiz.submit();
-	            }
-	        }, 1000);
-	    }
-
-	    jQuery(document).ready(function($) {
-	        startTimer();
-	        window.history.pushState(null, "", window.location.href);        
-	        window.onpopstate = function() {
-	            window.history.pushState(null, "", window.location.href);
-	        };
-	        $('.next').on('click', ()=>{
-	            startTimer();
-	        })
-	    });
-	</script>
-	
+@section('top_bar')	
   <nav class="navbar navbar-default navbar-static-top">
     <div class="logo-main-block">
       <div class="container">
@@ -86,7 +44,50 @@
       </div>
     </div>
   </nav>	
-@endsection
+@stop
+@section('script_clock')
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	{{-- <script src="{{ asset('assets/flipclock/flipclock.min.js') }}"></script> --}}
+	<script>
+		function str_pad_left(string,pad,length) {
+			return (new Array(length+1).join(pad)+string).slice(-length);
+		}
+		function startTimer(){
+			var count;
+			var timer = setInterval(function() {
+					var div = document.querySelector("#counter");
+					var queDur = document.querySelector("#queDuration").value;
+					var hidden_div = document.querySelector("#hidden");
+					count = count != undefined ? count * 1 -1 : hidden_div.textContent * 1 - 1;
+					var minutes = Math.floor(count / 60);
+					var seconds = count - minutes * 60;
+					var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
+					div.textContent = finalTime;
+					document.getElementById("queDuration").value = finalTime;
+					queDur = finalTime;
+					console.log(queDur);
+					if (count == 0 && document.querySelector(".next")) {
+							clearInterval(timer);
+							document.querySelector(".next").click();
+					}else if(count == 0){
+							console.log("Submit");
+							clearInterval(timer);
+							document.quiz.submit();
+					}
+			}, 1000);
+		}
+		jQuery(document).ready(function($) {
+			startTimer();
+			window.history.pushState(null, "", window.location.href);        
+			window.onpopstate = function() {
+					window.history.pushState(null, "", window.location.href);
+			};
+			$('.next').on('click', ()=>{
+					startTimer();
+			})
+		});
+	</script>  
+@stop
 
 @section('content')
   <div class="container">
@@ -139,6 +140,7 @@
 											<input type="hidden" name="quiz-id" id="test-id" value="{{ $sub->id }}">
 											<input type="hidden" name="quiz-slug" id="test-slug" value="{{ $sub->slug }}">
 											<input type="hidden" name="user-id" id="student-id" value="{{ Auth::user()->id }}">
+											{!! Form::input('hidden','time_taken'.$question->id,null,['id'=>'time_taken'.$question->id]) !!}
 											<p>{{ $allQuestion->links('vendor.pagination.myown') }}</p>					        		
 					        	</div>
 					        </form>
@@ -154,13 +156,6 @@
 
 @section('scripts')
 	{{-- <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script> --}}
-	<script src="{{ asset('js/jquery.cookie.js') }}"></script>
-	<script src="{{ asset('js/jquery.countdown.js') }}"></script>
-	<script type="text/javascript">
-	  var topic_id = "";
-	  var timer = "";
-		$(document).ready(function(){
-	    function e(e){(116==(e.which||e.keyCode)||82==(e.which||e.keyCode))&&e.preventDefault()};
-	  });
-	</script>
+	{{-- <script src="{{ asset('js/jquery.cookie.js') }}"></script> --}}
+	{{-- <script src="{{ asset('js/jquery.countdown.js') }}"></script> --}}	
 @endsection

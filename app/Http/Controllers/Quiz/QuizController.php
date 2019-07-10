@@ -104,10 +104,11 @@ class QuizController extends Controller
   public function takeQuiz($quiz)
   {
     $sub = SubjectQuiz::where('slug',$quiz)->first();
+    $duration = $sub->question_duration;
     $allQuestion = $sub->questions()->paginate(1);
     $totalQuestionCount = $sub->questions()->count();
-    return view('quizs.appearQuiz',compact('sub','allQuestion'));
-    // return view('quizs.start',compact('sub','allQuestion'));
+    // return view('quizs.appearQuiz',compact('sub','allQuestion'));
+    return view('quizs.start',compact('sub','allQuestion','duration'));
   }
 
   public function nextClickStore(request $request)
