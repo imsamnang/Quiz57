@@ -3,7 +3,7 @@
 @section('head')
   <link href="{{ asset('css/front.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
-  <link rel="stylesheet" href="{{asset('assets/flipclock/flipclock.css')}}">
+  {{-- <link rel="stylesheet" href="{{asset('assets/flipclock/flipclock.css')}}"> --}}
   <script>
     window.Laravel =  <?php echo json_encode([
         'csrfToken' => csrf_token(),
@@ -17,7 +17,7 @@
       <div class="container">
         {{-- @if ($setting) --}}
           <a href="{{ url('/') }}" title="Laravel Quiz">
-            <img src="{{asset('/images/logo/logo_1512974578qq2.png')}}" class="img-responsive" alt="Laravel Quiz">
+            <img src="{{asset('/images/logo/QuizLogo.png')}}" class="img-responsive" alt="Laravel Quiz">
           </a>
         {{-- @endif --}}
       </div>
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-  </nav>	
+  </nav>
 @stop
 @section('script_clock')
 	<script src="{{ asset('js/jquery.min.js') }}"></script>
@@ -72,11 +72,11 @@
 					}else if(count == 0){
 							console.log("Submit");
 							clearInterval(timer);
-							document.quiz.submit();
+							document.querySelector(".btn_quiz").click();
 					}
 			}, 1000);
 		}
-		jQuery(document).ready(function($) {
+		$(document).ready(function($) {
 			startTimer();
 			window.history.pushState(null, "", window.location.href);        
 			window.onpopstate = function() {
@@ -86,7 +86,7 @@
 					startTimer();
 			})
 		});
-	</script>  
+	</script>    
 @stop
 
 @section('content')
@@ -113,7 +113,7 @@
 									@endif
 										<input name="page" type="hidden" value="{{ $page}}">
 										<div id="hidden" hidden="hidden"> 
-											<input type="" name="queDuration" id="queDuration" value="{{$question->question_duration}}">{{$question->question_duration}}
+											<input type="" name="queDuration" id="queDuration" value="{{$sub->question_duration}}">{{$sub->question_duration}}
 										</div>
 										<input type="hidden" name="question_id[{{ $question->id }}]" value="{{$question->id}}">
 		                @foreach($question->options as $ops)

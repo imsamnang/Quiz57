@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\DB;
 
 Auth::routes();
 Route::get('/','HomeController@index');
-Route::get('front','Quiz\QuizController@front')->name('front');
+Route::get('front','Quiz\QuizController@front')->name('front')->middleware('auth');
 Route::get('/home', 'HomeController@viewAllQuiz')->name('home');
 
 //Quiz Route
@@ -45,9 +45,9 @@ Route::group(['as'=>'quiz.','prefix'=>'quiz/','namespace'=>'Quiz','middleware' =
   Route::post('nextclick', 'QuizController@nextClickStore')->name('next.quiz');
   Route::post('finishQuiz', 'QuizController@storeQuiz')->name('finish.quiz');
   
-  Route::get('/userResults', 'userController@showAppearedQuiz')->name('user.result');
-  Route::get('/viewSigleResult/{quizappearid}', 'userController@singleResult')->name('single.result');
-  Route::get('/quizLeaderboard/{quiz}', 'userController@viewLeaderboard')->name('leaderboard');
+  Route::get('/userResults', 'UserController@showAppearedQuiz')->name('user.result');
+  Route::get('/viewSigleResult/{quizappearid}', 'UserController@singleResult')->name('single.result');
+  Route::get('/quizLeaderboard/{quiz}', 'UserController@viewLeaderboard')->name('leaderboard');
 });
 // Quiz Questions
   Route::group(['as'=>'quiz.','prefix'=>'quiz/','namespace'=>'Quiz','middleware' =>['auth']],function (){
@@ -61,46 +61,44 @@ Route::group(['as'=>'quiz.','prefix'=>'quiz/','namespace'=>'Quiz','middleware' =
   Route::post('answer/{question}/save','QuestionsController@saveAnswer')->name('answer.store');    
 });
   
-//   });
+  // Take Quiz
+    // Route::get('{quiz}/start','Quiz\QuizController@start')->name('quiz.start');
 
-//  // Take Quiz
-  // Route::get('{quiz}/start','Quiz\QuizController@start')->name('quiz.start');
+    // // Submit Quiz
+    //   Route::post('{quiz}/submit','Quiz\QuizResultsController@store')->name('quiz.submit');
 
-// // Submit Quiz
-//   Route::post('{quiz}/submit','Quiz\QuizResultsController@store')->name('quiz.submit');
+    // // Quiz Results
+    //   Route::get('{quiz}/results','Quiz\QuizResultsController@index')->name('quiz.results');
 
-// // Quiz Results
-//   Route::get('{quiz}/results','Quiz\QuizResultsController@index')->name('quiz.results');
+    // //Test Result
+    //   Route::get('test', function (){
+    //       $user = auth()->user();
+    //       dd($user->quiz_results);
+    //   });  
 
-// //Test Result
-//   Route::get('test', function (){
-//       $user = auth()->user();
-//       dd($user->quiz_results);
-//   });  
+    // Route::get('/pagination', 'Quiz\PaginationController@index');
+    // Route::get('pagination/fetch_data', 'Quiz\PaginationController@fetch_data');
 
-// Route::get('/pagination', 'Quiz\PaginationController@index');
-// Route::get('pagination/fetch_data', 'Quiz\PaginationController@fetch_data');
+    // Route::get('/home', 'HomeController@index')->name('home');
+    // Route::get('/createQuiz', 'QuizController@showQuiz');
+    // Route::post('/createQuiz', 'QuizController@createQuiz');
+    // Route::delete('/deleteQuiz/{quiz}', 'QuizController@deleteQuiz');
+    // Route::get('/viewQuiz/{quiz}', 'QuizController@viewQuiz');
 
-// Route::get('/home', 'HomeController@index')->name('home');
-// Route::get('/createQuiz', 'QuizController@showQuiz');
-// Route::post('/createQuiz', 'QuizController@createQuiz');
-// Route::delete('/deleteQuiz/{quiz}', 'QuizController@deleteQuiz');
-// Route::get('/viewQuiz/{quiz}', 'QuizController@viewQuiz');
+    // Route::post('addQuestion/{quizId}', 'QuizController@addQuestion');
+    // Route::post('/deleteQuestion/{quizId}', 'QuizController@deleteQuestion');
+    // Route::post('/activateQuiz/{quizId}', 'QuizController@activateQuiz');
+    // Route::post('/deactivateQuiz/{quizId}', 'QuizController@deactivateQuiz');
 
-// Route::post('addQuestion/{quizId}', 'QuizController@addQuestion');
-// Route::post('/deleteQuestion/{quizId}', 'QuizController@deleteQuestion');
-// Route::post('/activateQuiz/{quizId}', 'QuizController@activateQuiz');
-// Route::post('/deactivateQuiz/{quizId}', 'QuizController@deactivateQuiz');
+    // Route::get('/quizWelcome/{quiz}', 'QuizController@quizWelcome');
+    // Route::get('/takeQuiz/{quiz}', 'Quiz\QuizController@takeQuiz');
+    // Route::post('/nextClick', 'Quiz\QuizController@nextClickStore');
+    // Route::post('/finishQuiz', 'Quiz\QuizController@storeQuiz');
+    // Route::get('/finishQuiz','HomeController@viewAllQuiz');
 
-// Route::get('/quizWelcome/{quiz}', 'QuizController@quizWelcome');
-// Route::get('/takeQuiz/{quiz}', 'Quiz\QuizController@takeQuiz');
-// Route::post('/nextClick', 'Quiz\QuizController@nextClickStore');
-// Route::post('/finishQuiz', 'Quiz\QuizController@storeQuiz');
-// Route::get('/finishQuiz','HomeController@viewAllQuiz');
+    // Route::get('/userResults', 'userController@showAppearedQuiz');
+    // Route::get('/viewSigleResult/{quizappearid}', 'userController@singleResult');
+    // Route::get('/quizLeaderboard/{quiz}', 'QuizController@viewLeaderboard');
 
-// Route::get('/userResults', 'userController@showAppearedQuiz');
-// Route::get('/viewSigleResult/{quizappearid}', 'userController@singleResult');
-// Route::get('/quizLeaderboard/{quiz}', 'QuizController@viewLeaderboard');
-
-// Route::get('/first_quiz', 'QuizController@getQuiz');
-// Route::get('/next_quiz', 'QuizController@getNextQuiz');
+    // Route::get('/first_quiz', 'QuizController@getQuiz');
+    // Route::get('/next_quiz', 'QuizController@getNextQuiz');

@@ -16,7 +16,7 @@
       <div class="container">
         {{-- @if ($setting) --}}
           <a href="{{ url('/') }}" title="Laravel Quiz">
-            <img src="{{asset('/images/logo/logo_1512974578qq2.png')}}" class="img-responsive" alt="Laravel Quiz">
+            <img src="{{asset('/images/logo/QuizLogo.png')}}" class="img-responsive" alt="Laravel Quiz">
           </a>
         {{-- @endif --}}
       </div>

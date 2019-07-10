@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Quiz;
 
 use App\Http\Controllers\Controller;
-use App\Models\AverageScore;
-use App\Models\QuizAppear;
+use App\Models\Quiz\AverageScore;
+use App\Models\Quiz\QuizResults;
 use App\Models\Quiz\Question;
 use App\Models\Quiz\QuestionQuiz;
 use App\Models\Quiz\SubjectQuiz;
-use App\Models\UserResponse;
+use App\Models\Quiz\UserAnswer;
 use Auth;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Response;
@@ -122,21 +122,23 @@ class QuizController extends Controller
     $userId  = Auth::user()->id;
     $userName  = Auth::user()->name;  
     $answer = $request->input('answer');
-    $answer = reset($answer);
+    if ($answer != null) {
+      $answer = reset($answer);
+    }
     $duration = preg_split('/:/', $time_remaining);
     $time_remaining_in_seconds = ((int)$duration[0] * 60) + ((int)$duration[1]);
     if ($page == 1) {
-        $newQuizAppear = new QuizAppear;
+        $newQuizAppear = new QuizResults;
         $newQuizAppear->marks_scored = 0;
         $newQuizAppear->user_id = $userId;
         $newQuizAppear->user_name = $userName;
         $newQuizAppear->subject_id = $quizid;
         $newQuizAppear->save();
     }
-    $uniqueQuizQuery = \DB::table('quiz_appears')->where('user_id', $userId)->orderBy('id','desc')->first();
+    $uniqueQuizQuery = \DB::table('quiz_results')->where('user_id', $userId)->orderBy('id','desc')->first();
     $uniqueQuizAppearId = $uniqueQuizQuery->id;
     $marks_scored = $uniqueQuizQuery->marks_scored;
-    $userResponse = new UserResponse;
+    $userResponse = new UserAnswer;
     $userResponse->user_id = $userId;
     $userResponse->userData_appear_id = $uniqueQuizAppearId;
     $userResponse->subject_id = $quizid;
@@ -154,7 +156,7 @@ class QuizController extends Controller
     $userResponse->time_taken = $time_taken;
     if ($correctAnsDb == $answer) {
         $marks_scored += 1;
-        \DB::table('quiz_appears')
+        \DB::table('quiz_results')
         ->where('id', $uniqueQuizAppearId)
         ->update(['marks_scored' => $marks_scored]);
         $userResponse->correct = 1;
@@ -182,10 +184,10 @@ class QuizController extends Controller
     }
     $duration = preg_split('/:/', $time_remaining);
     $time_remaining_in_seconds = ((int)$duration[0] * 60) + ((int)$duration[1]);      
-    $uniqueQuizQuery = \DB::table('quiz_appears')->where('user_id', $userId)->orderBy('id','desc')->first();
+    $uniqueQuizQuery = \DB::table('quiz_results')->where('user_id', $userId)->orderBy('id','desc')->first();
     $uniqueQuizAppearId = $uniqueQuizQuery->id;
     $marks_scored = $uniqueQuizQuery->marks_scored;
-    $userResponse = new UserResponse;
+    $userResponse = new UserAnswer;
     $userResponse->user_id = $userId;
     $userResponse->userData_appear_id = $uniqueQuizAppearId;
     $userResponse->subject_id = $quizid;
@@ -203,7 +205,7 @@ class QuizController extends Controller
     $userResponse->time_taken = $time_taken;      
     if ($correctAnsDb == $answer) {
         $marks_scored += 1;
-        \DB::table('quiz_appears')
+        \DB::table('quiz_results')
         ->where('id', $uniqueQuizAppearId)
         ->update(['marks_scored' => $marks_scored]);
         $userResponse->correct = 1;
@@ -216,8 +218,8 @@ class QuizController extends Controller
      * Storing average score for particular Quiz of user
     */
     $avgScoreCount = \DB::table('average_scores')->where('user_id', $userId)->where('subject_id', $quizid)->count();
-    $quizAppearCount = \DB::table('quiz_appears')->where('user_id', $userId)->where('subject_id', $quizid)->count();
-    $avg_marks = \DB::table('quiz_appears')
+    $quizAppearCount = \DB::table('quiz_results')->where('user_id', $userId)->where('subject_id', $quizid)->count();
+    $avg_marks = \DB::table('quiz_results')
     ->where('user_id', $userId)
     ->where('subject_id', $quizid)
     ->avg('marks_scored');
@@ -240,8 +242,8 @@ class QuizController extends Controller
    $sub = SubjectQuiz::where('id', $quizid)->first();
    $questionsCount = $sub->questions()->count();
    $percentage_correct = 100 * $marks_scored / $questionsCount;
-   return view('quizs.finishQuiz', [
-    'score_percentage' => $percentage_correct, 'questionsCount' => $questionsCount, 'uniqueQuizAppearId' => $uniqueQuizAppearId]);
+
+   return view('quizs.finishQuiz', ['percentage_correct' => $percentage_correct, 'questionsCount' => $questionsCount, 'uniqueQuizAppearId' => $uniqueQuizAppearId,'sub'=>$sub,'marks_scored'=>$marks_scored]);
   }
 
 // public function getBeforeStartTest($id){
@@ -325,6 +327,5 @@ class QuizController extends Controller
   // {
   //     //
   // }
-
 
 }

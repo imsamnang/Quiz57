@@ -28,7 +28,6 @@ class UserController extends Controller
 
 	public function singleResult(Request $request, QuizAppear $quizappearid)
 	{
-
 		$allQuestions = \DB::table('user_responses')
 		->join('questions','questions.questionid', '=', 'user_responses.question_id')
 		->join('quizzes','quizzes.quizid', '=', 'user_responses.quiz_id')
