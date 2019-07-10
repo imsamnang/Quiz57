@@ -28,11 +28,11 @@
 					}else if(count == 0){
 							console.log("Submit");
 							clearInterval(timer);
-							document.quiz.submit();
+							document.querySelector(".btn_quiz").click();
 					}
 			}, 1000);
 		}
-		jQuery(document).ready(function($) {
+		$(document).ready(function($) {
 			startTimer();
 			window.history.pushState(null, "", window.location.href);        
 			window.onpopstate = function() {
@@ -71,7 +71,8 @@
 							<h6 style="color: #009975">Time Left: <span id="counter" style="color: #009975; font-weight: 800 "></span></h6>
 							<input name="page" type="hidden" value="{{ $page}}">
 							<div id="hidden" hidden="hidden"> 
-								<input type="" name="queDuration" id="queDuration" value="{{$question->question_duration}}">{{$question->question_duration}}
+								<input type="" name="queDuration" id="queDuration" value="{{$sub->question_duration}}">
+								{{$sub->question_duration}}
 							</div>
 							<input type="hidden" name="question_id[{{ $question->id }}]" value="{{$question->id}}">
 							<div class="quiz-question">

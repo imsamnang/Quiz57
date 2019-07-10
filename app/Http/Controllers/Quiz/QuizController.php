@@ -113,7 +113,6 @@ class QuizController extends Controller
 
   public function nextClickStore(request $request)
   {
-    return $request->all();
     $page = $request->input('page');
     $question_id = $request->input('question_id');
     $time_remaining = $request->input('queDuration');
@@ -149,7 +148,7 @@ class QuizController extends Controller
     }
     $findQuestion = \DB::table('answers')->where('question_id', $question_id)->first();
     $correctAnsDb = $findQuestion->option_id;
-    $findDuration = \DB::table('subject_quizzes')->where('id',$quizid)->first();
+    $findDuration = \DB::table('subjects_quizzes')->where('id',$quizid)->first();
     $totalTimeForQuestion = $findDuration->question_duration;
     $time_taken = $totalTimeForQuestion - $time_remaining_in_seconds;
     $userResponse->time_taken = $time_taken;
@@ -177,11 +176,10 @@ class QuizController extends Controller
     $userName  = Auth::user()->name;
     $answer = $request->input('answer');
     if ($answer) {
-        $answer = reset($answer);
+      $answer = reset($answer);
     }else{
-        $answer = '';
+      $answer = '';
     }
-
     $duration = preg_split('/:/', $time_remaining);
     $time_remaining_in_seconds = ((int)$duration[0] * 60) + ((int)$duration[1]);      
     $uniqueQuizQuery = \DB::table('quiz_appears')->where('user_id', $userId)->orderBy('id','desc')->first();
@@ -193,13 +191,13 @@ class QuizController extends Controller
     $userResponse->subject_id = $quizid;
     $userResponse->question_id = $question_id;
     if ($answer == null) {
-        $userResponse->user_response = "Not Answered";
+      $userResponse->user_response = "Not Answered";
     }else{
-        $userResponse->user_response = $answer;
+      $userResponse->user_response = $answer;
     }
     $findQuestion = \DB::table('answers')->where('question_id', $question_id)->first();
     $correctAnsDb = $findQuestion->option_id;
-    $findDuration = \DB::table('subject_quizzes')->where('id',$quizid)->first();
+    $findDuration = \DB::table('subjects_quizzes')->where('id',$quizid)->first();
     $totalTimeForQuestion = $findDuration->question_duration;
     $time_taken = $totalTimeForQuestion - $time_remaining_in_seconds;
     $userResponse->time_taken = $time_taken;      
