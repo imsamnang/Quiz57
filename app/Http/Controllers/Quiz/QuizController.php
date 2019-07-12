@@ -11,7 +11,6 @@ use App\Models\Quiz\SubjectQuiz;
 use App\Models\Quiz\UserAnswer;
 use Auth;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Response;
 
 class QuizController extends Controller
 {
