@@ -16,7 +16,9 @@ class SubjectQuiz extends Model
                       'reference',
                       'max_attempts',
                       'pass_percentage',
-                      'question_duration'
+                      'question_duration',
+                      'per_q_mark',
+                      'user_id'
                       // 'status',
                     ];
 
@@ -30,7 +32,8 @@ class SubjectQuiz extends Model
       return $this->belongsToMany(Question::class);
     }
 
-    public function scopehasQuestions(){
+    public function scopehasQuestions()
+    {
       if($this->questions()->get()->count()){
         return true;
       }
@@ -43,21 +46,12 @@ class SubjectQuiz extends Model
       return $this->hasMany(QuizResults::class,'subject_id');
     }
 
-    public function scopeisExamined(){
+    public function scopeisExamined()
+    {
       if($this->answers()->get()->count()){
         return false;
       }
       return true;
     }
-
-    public function Users(){
-      return $this->belongsTo(User::class,'user_id');
-    }
-
-    public function scopeisUsered(){
-      if($this->Users()->get()->count()){
-        return false;
-      }
-      return true;
-    }     
+  
 }

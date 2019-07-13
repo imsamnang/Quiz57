@@ -134,9 +134,6 @@
 		                  @endif
 		                @endforeach
 					        	<div class="row">
-											{{-- <div class="col-md-6 col-xs-8">
-					        			<button type="submit" class="btn btn-wave btn-block nextbtn">Next</button>
-					        		</div> --}}
 											<input type="hidden" name="quiz-id" id="test-id" value="{{ $sub->id }}">
 											<input type="hidden" name="quiz-slug" id="test-slug" value="{{ $sub->slug }}">
 											<input type="hidden" name="user-id" id="student-id" value="{{ Auth::user()->id }}">

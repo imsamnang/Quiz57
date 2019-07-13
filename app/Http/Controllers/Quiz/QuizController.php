@@ -24,7 +24,9 @@ class QuizController extends Controller
   public function front()
   {
     $allQuiz = SubjectQuiz::all();
-    return view('quizs.mainquiz',compact('allQuiz'));    
+    $answers = QuizResults::all();
+    // return $answers;
+    return view('quizs.mainquiz',compact('allQuiz','answers'));    
   }
 
   public function create()
@@ -43,6 +45,8 @@ class QuizController extends Controller
       'max_attempts'  => $request->max_attempts,
       'pass_percentage' => (int)$request->pass_percentage,
       'question_duration' => (int)$request->question_duration,
+      'per_q_mark' => 1,
+      'user_id' => Auth::user()->id,
       'status'  => $request->active
     ]);
 
