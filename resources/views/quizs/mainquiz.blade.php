@@ -116,13 +116,18 @@
                     </div>
                   </div>
                   <div class="card-action">
-                    <center>                      
-                    @foreach ($answers as $answer)
-                      @if ($subject->id==$answer->subject_id && Auth::user()->id==$answer->user_id)
-                        <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-danger" title="Start Quiz">Start Quiz</a>
+                    <center>
+                      @if (Auth::user()->answers->count()>0)
+                          @foreach (Auth::user()->answers as $answer)
+                            @if ($subject->id==$answer->subject_id)
+                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-danger btn-block" title="Start Quiz">Quiz Done</a>
+                            @else
+                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-success btn-block" title="Start Quiz">Start Quiz</a>
+                            @endif
+                          @endforeach
+                      @else
+                        <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-primary btn-block" title="Start Quiz">Start Quiz</a>
                       @endif
-                    @endforeach
-{{--                         <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-primary" title="Start Quiz">Start Quiz</a> --}}
                     </center>
                   </div>
                 </div>
