@@ -117,13 +117,17 @@
                   </div>
                   <div class="card-action">
                     <center>
-                      @foreach ($subject->answers as $answer)
-                        @if ($subject->id===$answer->subject_id && $answer->user_id===Auth::user()->id)
-                          <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="<button></button> btn-block" title="Start Quiz">Quiz Done</a>
-                        @else
-                          <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="<button></button> btn-block" title="Start Quiz">Start Quiz</a>
-                        @endif
-                      @endforeach
+                      @if (Auth::user()->answers->count()>0)
+                          @foreach (Auth::user()->answers as $answer)
+                            @if ($subject->id==$answer->subject_id)
+                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-danger btn-block" title="Start Quiz">Quiz Done</a>
+                            @else
+                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-success btn-block" title="Start Quiz">Start Quiz</a>                            
+                            @endif
+                          @endforeach
+                      @else
+                        <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-primary btn-block" title="Start Quiz">Start Quiz</a>
+                      @endif                        
                     </center>
                   </div>
                 </div>
