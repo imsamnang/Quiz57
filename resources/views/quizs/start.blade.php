@@ -104,8 +104,8 @@
 						<div class="row">
 							<div class="col-md-8 col-md-offset-2">
 								@foreach($allQuestion as $iteration => $question)
-									<blockquote> Total Questions &nbsp;&nbsp;1 / 10	</blockquote>
-				        	<h3 class="question">Q.The common element which describe the web page, is ?</h3>
+									<blockquote> Total Questions &nbsp;&nbsp;{{ $page}} / {{ $totalQuestionCount }}	</blockquote>
+				        	<h3 class="question">{{ $question->title }}</h3>
 									@if ( $allQuestion->hasMorePages())
 										{{ Form::open(array('route' => 'quiz.next.quiz', 'role' => 'form', 'name' => 'quiz', 'class' => 'form-horizontal', 'id' => 'myForm')) }}
 									@else

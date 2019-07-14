@@ -117,17 +117,21 @@
                   </div>
                   <div class="card-action">
                     <center>
-                      @if (Auth::user()->answers->count()>0)
+                      @if ($countResult < $coundSubQuiz)
+                        @if (Auth::user()->answers->count()<0 || Auth::user()->answers->count()==null)
+                           <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-primary btn-block" title="Start Quiz">Start Quiz</a>
+                        @else
                           @foreach (Auth::user()->answers as $answer)
-                            @if ($subject->id==$answer->subject_id)
-                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-danger btn-block" title="Start Quiz">Quiz Done</a>
+                            @if ($subject->id!=$answer->subject_id)
+                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-primary btn-block" title="Start Quiz">Start Quiz</a>
                             @else
-                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-success btn-block" title="Start Quiz">Start Quiz</a>
+                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-warning btn-block" title="Start Quiz">Done Quiz</a>                               
                             @endif
-                          @endforeach
+                          @endforeach                        
+                        @endif
                       @else
-                        <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-primary btn-block" title="Start Quiz">Start Quiz</a>
-                      @endif
+                        <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-warning btn-block" title="Start Quiz">Done Quiz</a>                      
+                      @endif  
                     </center>
                   </div>
                 </div>

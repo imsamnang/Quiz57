@@ -18,15 +18,21 @@ class QuizController extends Controller
   {
     // $generalSetting = GeneralSetting::findOrFail(1)->first();
     $allQuiz = SubjectQuiz::all();
-    return view('quizs.subject.index',compact('allQuiz'));
+    return view('quizs.subject.index',compact('allQuiz','coundSubQuiz'));
   }
 
   public function front()
   {
     $allQuiz = SubjectQuiz::all();
-    $answers = QuizResults::all();
-    // return $answers;
-    return view('quizs.mainquiz',compact('allQuiz','answers'));    
+    $coundSubQuiz = $allQuiz->count();
+    if(!Auth::user()->answers->isEmpty())
+    {
+      $countResult = QuizResults::where('user_id',Auth::user()->id)->count();
+    } else {
+       $countResult = 0;
+    }
+    // return $countResult;
+    return view('quizs.mainquiz',compact('allQuiz','coundSubQuiz','countResult')); 
   }
 
   public function create()
@@ -111,7 +117,7 @@ class QuizController extends Controller
     $allQuestion = $sub->questions()->paginate(1);
     $totalQuestionCount = $sub->questions()->count();
     // return view('quizs.appearQuiz',compact('sub','allQuestion'));
-    return view('quizs.start',compact('sub','allQuestion','duration'));
+    return view('quizs.start',compact('sub','allQuestion','duration','totalQuestionCount'));
   }
 
   public function nextClickStore(request $request)
