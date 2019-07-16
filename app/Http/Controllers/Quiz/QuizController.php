@@ -10,6 +10,7 @@ use App\Models\Quiz\QuestionQuiz;
 use App\Models\Quiz\SubjectQuiz;
 use App\Models\Quiz\UserAnswer;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
@@ -23,16 +24,32 @@ class QuizController extends Controller
 
   public function front()
   {
-    $allQuiz = SubjectQuiz::all();
-    $coundSubQuiz = $allQuiz->count();
-    if(!Auth::user()->answers->isEmpty())
-    {
-      $countResult = QuizResults::where('user_id',Auth::user()->id)->count();
-    } else {
-       $countResult = 0;
-    }
-    // return $countResult;
-    return view('quizs.mainquiz',compact('allQuiz','coundSubQuiz','countResult')); 
+    // $allQuiz = SubjectQuiz::all();
+    $allQuiz= SubjectQuiz::whereNotIn('id',
+                QuizResults::where('user_id',Auth::user()->id)
+                ->pluck('subject_id'))
+                ->get();
+    $allQuizDone= SubjectQuiz::WhereIn('id',
+                QuizResults::where('user_id',Auth::user()->id)
+                ->pluck('subject_id'))
+                ->get();
+
+    // $coundSubQuiz = $allQuiz->count();
+    // if(!Auth::user()->answers->isEmpty())
+    // {
+    //   $countResult = QuizResults::where('user_id',Auth::user()->id)->count();
+    // } else {
+    //    $countResult = 0;
+    // }
+    // $countUntest = $coundSubQuiz-$countResult;
+
+    // $allQuizAnswer = DB::table('subjects_quizzes')
+    //     ->whereNotIn('id', DB::table('quiz_results')->where('user_id',Auth::user()->id)->pluck('subject_id'))
+    //     ->select('subjects_quizzes.*')
+    //     // ->groupBy('cust', 'cust_no')
+    //     ->get();
+    // return $allQuizAnswer;
+    return view('quizs.mainquiz',compact('allQuiz','allQuizDone')); 
   }
 
   public function create()
