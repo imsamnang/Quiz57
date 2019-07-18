@@ -16,6 +16,7 @@ class CreateSubjectQuizzesTable extends Migration
             $table->string('reference');
             $table->integer('max_attempts');
             $table->float('pass_percentage');
+            $table->integer('per_q_mark');
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

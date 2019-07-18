@@ -44,7 +44,7 @@ Route::group(['as'=>'quiz.','prefix'=>'quiz/','namespace'=>'Quiz','middleware' =
   Route::get('takequiz/{quiz}', 'QuizController@takeQuiz')->name('start.quiz');
   Route::post('nextclick', 'QuizController@nextClickStore')->name('next.quiz');
   Route::post('finishQuiz', 'QuizController@storeQuiz')->name('finish.quiz');
-  
+
   Route::get('/userResults', 'UserController@showAppearedQuiz')->name('user.result');
   Route::get('/viewSigleResult/{quizappearid}', 'UserController@singleResult')->name('single.result');
   Route::get('/quizLeaderboard/{quiz}', 'UserController@viewLeaderboard')->name('leaderboard');
@@ -58,9 +58,9 @@ Route::group(['as'=>'quiz.','prefix'=>'quiz/','namespace'=>'Quiz','middleware' =
     Route::post('{question}/question/update','QuestionsController@update')->name('question.update');
     Route::get('question/{question}/destroy','QuestionsController@destroy')->name('question.destroy');
 // Quiz Answers
-  Route::post('answer/{question}/save','QuestionsController@saveAnswer')->name('answer.store');    
+  Route::post('answer/{question}/save','QuestionsController@saveAnswer')->name('answer.store');
 });
-  
+
   // Take Quiz
     // Route::get('{quiz}/start','Quiz\QuizController@start')->name('quiz.start');
 
@@ -74,7 +74,7 @@ Route::group(['as'=>'quiz.','prefix'=>'quiz/','namespace'=>'Quiz','middleware' =
     //   Route::get('test', function (){
     //       $user = auth()->user();
     //       dd($user->quiz_results);
-    //   });  
+    //   });
 
     // Route::get('/pagination', 'Quiz\PaginationController@index');
     // Route::get('pagination/fetch_data', 'Quiz\PaginationController@fetch_data');
