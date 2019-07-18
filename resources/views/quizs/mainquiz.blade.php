@@ -122,10 +122,10 @@
                            <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-primary btn-block" title="Start Quiz">Start Quiz</a>
                         @else
                           @foreach (Auth::user()->answers as $answer)
-                            @if ($subject->id!=$answer->subject_id)
-                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-primary btn-block" title="Start Quiz">Start Quiz</a>
+                            @if ($subject->id==$answer->subject_id)
+                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-warning btn-block" title="Start Quiz">Done Quiz</a>
                             @else
-                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-warning btn-block" title="Start Quiz">Done Quiz</a>                               
+                              <a href="{{route('quiz.start.quiz',$subject->slug)}}" class="btn btn-success btn-block" title="Start Quiz">Start Quiz</a>
                             @endif
                           @endforeach                        
                         @endif

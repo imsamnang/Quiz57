@@ -94,33 +94,14 @@
               		<td>{{$sub->per_q_mark}}</td>
               		<td>{{$questionsCount * $sub->per_q_mark}}</td>
               	</tr>
-{{--                 <tr>
-                  <td>{{$questionsCount}}</td>
-                  <td>
-                    @php
-                      $mark = 0;
-                      $correct = collect();
-                    @endphp
-                    @foreach ($answers as $answer)
-                      @if($answer->user_id == Auth::id())
-                        @if ($answer->answer == $answer->user_answer)
-                          @php
-                          $mark++;
-                          @endphp
-                        @endif
-                      @endif
-                    @endforeach
-                    @php
-                      $correct = $mark*$topic->per_q_mark;
-                    @endphp
-                    {{$correct}}
-                  </td>
-                  <td>{{$topic->per_q_mark}}</td>
-                  <td>{{$topic->per_q_mark*$count_questions}}</td>
-                </tr> --}}
               </tbody>
             </table>
-            <h2 class="text-center">Thank You!</h2>          	
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <h2 class="text-center">Thank You!</h2>
+                <a href="{{ route('front') }}" class="btn btn-success">Take More Quiz</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -143,7 +124,5 @@
 @endsection
 
 @section('scripts')
-	{{-- <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script> --}}
-	{{-- <script src="{{ asset('js/jquery.cookie.js') }}"></script> --}}
-	{{-- <script src="{{ asset('js/jquery.countdown.js') }}"></script> --}}	
+
 @endsection

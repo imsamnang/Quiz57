@@ -18,7 +18,7 @@ class SubjectQuiz extends Model
                       'pass_percentage',
                       'question_duration',
                       'per_q_mark',
-                      'user_id'
+                      // 'user_id'
                       // 'status',
                     ];
 
