@@ -17,10 +17,10 @@ class CreateQuestionSubjectQuizTable extends Migration
             $table->increments('id');
             $table->integer('question_id')->unsigned();
             $table->integer('subject_quiz_id')->unsigned();
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
-            $table->foreign('subject_quiz_id')->references('id')->on('subject_quizzes')->onDelete('cascade');
             $table->boolean('status')->default(1);
             $table->timestamps();
+            $table->foreign('subject_quiz_id')->references('id')->on('subject_quizzes')->onDelete('cascade');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }
 

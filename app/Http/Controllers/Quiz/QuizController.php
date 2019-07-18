@@ -10,7 +10,6 @@ use App\Models\Quiz\QuestionQuiz;
 use App\Models\Quiz\SubjectQuiz;
 use App\Models\Quiz\UserAnswer;
 use Auth;
-use DB;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
@@ -49,7 +48,7 @@ class QuizController extends Controller
     //     // ->groupBy('cust', 'cust_no')
     //     ->get();
     // return $allQuizAnswer;
-    return view('quizs.mainquiz',compact('allQuiz','allQuizDone')); 
+    return view('quizs.mainquiz',compact('allQuiz','allQuizDone'));
   }
 
   public function create()
@@ -93,7 +92,7 @@ class QuizController extends Controller
   }
 
   public function destroy($quiz)
-  {      
+  {
     $quiz = SubjectQuiz::where('id', $quiz)->first();
     $this->deleteQuestions($quiz);
     $subOps = QuestionQuiz::where('subject_quiz_id',$quiz->id)->delete();
@@ -108,7 +107,7 @@ class QuizController extends Controller
       $question->delete();
       foreach ($question->answers as $ans) {
         $ans->delete();
-      }      
+      }
       foreach ($question->options as $option) {
         $option->delete();
       }
@@ -146,7 +145,7 @@ class QuizController extends Controller
     $quizid = $request->input('quiz-id');
     $quizslug = $request->input('quiz-slug');
     $userId  = Auth::user()->id;
-    $userName  = Auth::user()->name;  
+    $userName  = Auth::user()->name;
     $answer = $request->input('answer');
     if ($answer != null) {
       $answer = reset($answer);
@@ -188,7 +187,7 @@ class QuizController extends Controller
         $userResponse->correct = 1;
     }else{
       $userResponse->correct = 0;
-    }        
+    }
     $userResponse->save();
     $page += 1;
     return redirect('/quiz/takequiz/'.$quizslug.'?page='.$page);
@@ -209,7 +208,7 @@ class QuizController extends Controller
       $answer = '';
     }
     $duration = preg_split('/:/', $time_remaining);
-    $time_remaining_in_seconds = ((int)$duration[0] * 60) + ((int)$duration[1]);      
+    $time_remaining_in_seconds = ((int)$duration[0] * 60) + ((int)$duration[1]);
     $uniqueQuizQuery = \DB::table('quiz_results')->where('user_id', $userId)->orderBy('id','desc')->first();
     $uniqueQuizAppearId = $uniqueQuizQuery->id;
     $marks_scored = $uniqueQuizQuery->marks_scored;
@@ -228,7 +227,7 @@ class QuizController extends Controller
     $findDuration = \DB::table('subjects_quizzes')->where('id',$quizid)->first();
     $totalTimeForQuestion = $findDuration->question_duration;
     $time_taken = $totalTimeForQuestion - $time_remaining_in_seconds;
-    $userResponse->time_taken = $time_taken;      
+    $userResponse->time_taken = $time_taken;
     if ($correctAnsDb == $answer) {
         $marks_scored += 1;
         \DB::table('quiz_results')
@@ -255,7 +254,7 @@ class QuizController extends Controller
         $avgScore->subject_id = $quizid;
         $avgScore->avg_score = $avg_marks;
         $avgScore->appear_count = $quizAppearCount;
-        $avgScore->save();  
+        $avgScore->save();
     }else{
         $userFindQuery = \DB::table('average_scores')->where('user_id', $userId)->where('subject_id', $quizid)->select('avgid');
         $getAvgidObj = $userFindQuery->get('avgid');
@@ -286,7 +285,7 @@ class QuizController extends Controller
   //   // dd($first_question_id);
   //   $last_question_id = $subject->questions()->max('id');
   //   $duration = $subject->duration;
-    
+
   //   if(session('next_question_id')){
   //     $current_question_id = session('next_question_id');
   //   }
@@ -295,7 +294,7 @@ class QuizController extends Controller
   //     session(['next_question_id'=>$current_question_id]);
   //   }
   //   // dd($current_question_id);
-  //   return view('quizs.test', compact('subject', 'questions', 'current_question_id', 'first_question_id', 'last_question_id', 'duration'));    
+  //   return view('quizs.test', compact('subject', 'questions', 'current_question_id', 'first_question_id', 'last_question_id', 'duration'));
   // }
 
   // public function getNextQuestion($id, Request $request)
@@ -335,7 +334,7 @@ class QuizController extends Controller
   //   // }
   //   $next_question_id = $subject->questions()->where('id', '>', $req->get('question_id'))->min('id');
   //   // return $next_question_id;
-  //   // return redirect()->route('before-exam',[$next_question_id]);    
+  //   // return redirect()->route('before-exam',[$next_question_id]);
   //   if ($next_question_id !=null) {
   //     return Response::json(['next_question_id' => $next_question_id,'count_questions'=>$count_questions]);
   //     // return redirect()->route('before-exam',$next_question_id);
