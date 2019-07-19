@@ -14,6 +14,9 @@ class CreateQuizResultsTable extends Migration
     public function up()
     {
         Schema::create('quiz_results', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';            
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('subject_id')->unsigned();

@@ -78,24 +78,6 @@ class SubjectQuizController extends Controller
     return redirect()->route('subjects.index');
   }
 
-  public function active(request $request, $id)
-  {
-      $row = Subject::findOrFail($id);
-      $request->request->add(['status' => '1']);
-      $row->update($request->all());
-      $request->session()->flash($this->message_success, $row->faculty.' '.$this->panel.' Active Successfully.');
-      return redirect()->route($this->base_route);
-  }
-
-  public function inActive(request $request, $id)
-  {
-    $row = Subject::findOrFail($id);
-    $request->request->add(['status' => '0']);
-    $row->update($request->all());
-    $request->session()->flash($this->message_success, $row->faculty.' '.$this->panel.' In-Active Successfully.');
-    return redirect()->route($this->base_route);
-  }
-
   public function createQuestion($id)
   {
     $subject = SubjectQuiz::findOrFail($id);

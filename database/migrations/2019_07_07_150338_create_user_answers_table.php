@@ -14,6 +14,9 @@ class CreateUserAnswersTable extends Migration
     public function up()
     {
       Schema::create('user_answers', function (Blueprint $table) {
+        $table->engine = 'InnoDB';
+        $table->charset = 'utf8';
+        $table->collation = 'utf8_general_ci';        
         $table->increments('id');
         $table->integer('user_id')->unsigned();
         $table->integer('userData_appear_id')->unsigned();
@@ -29,7 +32,7 @@ class CreateUserAnswersTable extends Migration
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         $table->foreign('subject_id')->references('id')->on('subject_quizzes')->onDelete('cascade');
         $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
-        $table->foreign('userData_appear_id')->references('id')->on('quiz_appears')->onDelete('cascade');
+        $table->foreign('userData_appear_id')->references('id')->on('quiz_results')->onDelete('cascade');
       });
     }
     public function down()
