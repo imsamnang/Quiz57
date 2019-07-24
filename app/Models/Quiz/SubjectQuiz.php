@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubjectQuiz extends Model
 {
-  protected $table ='subjects_quizzes';
+  // protected $table ='subjects_quizzes';
 	protected $fillable=[
                       'title',
                       'slug',
@@ -18,7 +18,7 @@ class SubjectQuiz extends Model
                       'pass_percentage',
                       'question_duration',
                       'per_q_mark',
-                      'user_id'
+                      // 'user_id'
                       // 'status',
                     ];
 

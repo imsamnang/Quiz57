@@ -14,17 +14,17 @@ class CreateQuizResultsTable extends Migration
     public function up()
     {
         Schema::create('quiz_results', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';            
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('subject_quiz_id')->unsigned();
-            $table->integer('total_attempt');
-            $table->integer('correct_answers');
-            $table->float('percentage');
-            $table->boolean('passed');
+            $table->integer('subject_id')->unsigned();
+            $table->string('user_name');
+            $table->double('marks_scored');
+            $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('subject_quiz_id')->references('id')->on('subject_quizzes')->onDelete('cascade');
-            $table->boolean('status')->default(1);
-            $table->timestamps();   
+            $table->foreign('subject_id')->references('id')->on('subject_quizzes')->onDelete('cascade');
         });
     }
 

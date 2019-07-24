@@ -14,6 +14,9 @@ class CreateAverageScoresTable extends Migration
     public function up()
     {
         Schema::create('average_scores', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';            
             $table->increments('avgid');
             $table->integer('user_id')->unsigned();
             $table->integer('subject_id')->unsigned();

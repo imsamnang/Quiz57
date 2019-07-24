@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('css')
+@section('custom-css')
     <!-- page specific plugin styles -->
 
 @endsection
@@ -22,7 +22,7 @@
                   <th>Questions</th>
                   <th>Total Questions</th>
                   <th>Start</th>
-                  <th></th>
+                  <th>Action</th>
                   </thead>
                   <tbody>
                   @if($allQuiz)
@@ -33,7 +33,7 @@
                             <a href="{{ route('quiz.subject.show',$quiz->slug) }}">View Quiz</a>
                           </td>
                           <td>
-                            <a href="{{ route('quiz.question.create',$quiz->slug) }}" class="btn btn-info">Add Questions</a>
+                            <a href="{{ route('quiz.question.create',$quiz->slug) }}" class="btn btn-info btn-sm">Add Questions</a>
                           </td>
                           <td>
                             @if(count($quiz->questions) <= 1) 
@@ -43,10 +43,16 @@
                             @endif
                           </td>
                           <td>
-                            <a href="{{ route('quiz.start.quiz', $quiz->slug) }}" class="btn btn-success">Start Quiz</a>
+                            <a href="{{ route('quiz.start.quiz', $quiz->slug) }}" class="btn btn-success btn-sm">Start Quiz</a>
                           </td>
                           <td>
-                            <a href="{{ route('quiz.subject.destroy',$quiz->slug) }}" class="btn btn-danger">Remove</a>
+                            <form method="POST" action="{{route('quiz.subject.destroy',$quiz->id)}}" accept-charset="UTF-8" style="display:inline" id="deleteObject-{{$quiz->id}}">
+                              {{csrf_field()}}
+                              {{method_field('DELETE')}}
+                              <a href="#" class="btn btn-primary btn-sm btn-danger" onclick="deleteObject({{$quiz->id}})">Remove
+                              </a>
+                            </form>
+                            {{-- <a href="{{ route('quiz.subject.destroy',$quiz->id) }}" class="btn btn-danger">Remove</a> --}}
                           </td>
                       </tr>
                     @endforeach
@@ -57,7 +63,6 @@
                   @endif
                   </tbody>
               </table>
-
               <a href="{{ route('quiz.subject.create') }}" class="btn btn-info btn-block">Create a new Quiz</a>
           </div>
         </div><!-- /.row -->
@@ -68,12 +73,12 @@
 @endsection
 
 
-@section('js')
+@push('custom-js')
   {{-- @include('includes.scripts.jquery_validation_scripts') --}}
   <!-- inline scripts related to this page -->
   <script type="text/javascript">
 
   </script>
   {{-- @include('includes.dataTable_scripts') --}}
-  {{-- @include('quizs.delete_confirm') --}}
-@endsection
+  @include('quizs.delete_confirm')
+@endpush
