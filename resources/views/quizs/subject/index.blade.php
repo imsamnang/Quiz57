@@ -36,10 +36,10 @@
                             <a href="{{ route('quiz.question.create',$quiz->slug) }}" class="btn btn-info btn-sm">Add Questions</a>
                           </td>
                           <td>
-                            @if(count($quiz->questions) <= 1) 
-                              {{ $quiz->questions->count() }} Question 
-                            @else 
-                              {{ $quiz->questions->count() }} Questions 
+                            @if(count($quiz->questions) <= 1)
+                              {{ $quiz->questions->count() }} Question
+                            @else
+                              {{ $quiz->questions->count() }} Questions
                             @endif
                           </td>
                           <td>
